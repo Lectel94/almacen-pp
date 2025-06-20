@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DAPP=/home/prodat33333/repositories/warehouse-pp
+    - /bin/rsync -a public/ $DAPP
