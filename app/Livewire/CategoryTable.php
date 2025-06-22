@@ -18,6 +18,7 @@ final class CategoryTable extends PowerGridComponent
 {
     public string $tableName = 'category-table-8dp3bj-table';
     use WithExport;
+    protected $listeners = ['categoryAdded' => '$refresh'];
     public function setUp(): array
     {
         $this->showCheckBox();
@@ -28,8 +29,8 @@ final class CategoryTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
-                PowerGrid::exportable(fileName: 'my-export-file')
-            ->type( Exportable::TYPE_CSV),
+               /*  PowerGrid::exportable(fileName: 'my-export-file')
+            ->type( Exportable::TYPE_CSV), */
         ];
     }
 
@@ -111,11 +112,11 @@ final class CategoryTable extends PowerGridComponent
         $dell=asset('img/icodel.png');
         $edit=asset('img/ico25.png');
             return [
-                Button::add('edit')
+                /* Button::add('edit')
                 ->slot('<img src="'.$edit.'">')
                     ->id()
                     ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                    ->dispatch('edit', ['rowId' => $row->id]),
+                    ->dispatch('edit', ['rowId' => $row->id]), */
 
                     Button::add('dell')
                     ->slot('<img src="'.$dell.'">')

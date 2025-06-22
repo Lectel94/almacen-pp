@@ -6,9 +6,11 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-10xl sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-xl sm:rounded-lg" style="padding: 3%;">
-                <h1>Vendors Setting</h1>
+                <h1>Vendors</h1>
+
+                <livewire:add-vendor />
                 <livewire:vendor-table />
 
                 <div id="editModal"

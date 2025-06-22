@@ -6,9 +6,10 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-10xl sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-xl sm:rounded-lg" style="padding: 3%;">
-                <h1>Categories Setting</h1>
+                <h1>Categories</h1>
+                <livewire:add-category />
                 <livewire:category-table />
 
                 <div id="editModal"

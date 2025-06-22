@@ -110,7 +110,7 @@ class Index extends Component
     {
         $query = $this->getQuery();
         $sortedQuery = $this->getSortedQuery($query);
-        $products = $sortedQuery->paginate($this->paginationLimit)->onEachSide(2);
+        $products = $sortedQuery->paginate($this->paginationLimit)->onEachSide(1);
 
         /* $this->currentPage = $products->currentPage();
         $this->lastPage = $products->lastPage();

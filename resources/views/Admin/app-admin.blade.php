@@ -11,7 +11,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
+    <link rel="icon" href="{{ asset('img/logo1.jpg') }}">
     <!-- Scripts -->
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -31,10 +31,11 @@
     <div class="min-h-screen bg-gray-100">
         @livewire('menu-admin')
 
+
         <!-- Page Heading -->
         @if (isset($header))
         <header class="bg-white shadow">
-            <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="px-2 py-6 mx-auto max-w-10xl sm:px-6 lg:px-8">
                 {{ $header }}
             </div>
         </header>

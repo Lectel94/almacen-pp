@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Livewire\Products\Index;
 /* use App\Livewire\Counter; */
 use App\Livewire\EditProduct;
+use App\Livewire\ProductsByCategory;
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,8 +22,16 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', Index::class)->name('dashboard');
-Route::get('/products/{product}', EditProduct::class)->name('products.edit');
+
+    /* Route::get('/dashboard', Index::class)->name('dashboard'); */
+
+    Route::get('/dashboard', function () {
+        return view('Store.index');
+    })->name('dashboard');
+
+
+    /* Route::get('/store2', ProductsByCategory::class)->name('store2'); */
+    Route::get('/products/{product}', EditProduct::class)->name('products.edit');
 
 /* Route::get('/counter', Counter::class); */
 

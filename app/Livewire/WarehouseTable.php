@@ -16,6 +16,7 @@ final class WarehouseTable extends PowerGridComponent
 {
     public string $tableName = 'warehouse-table-ihj2u1-table';
 
+    protected $listeners = ['warehouseAdded' => '$refresh'];
     public function setUp(): array
     {
         $this->showCheckBox();
@@ -66,7 +67,7 @@ final class WarehouseTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::inputText('name', 'name')->placeholder('Warehouse Name'),
+            /* Filter::inputText('name', 'name')->placeholder('Warehouse Name'), */
 
             /* Filter::boolean('in_stock', 'in_stock')
                 ->label('In Stock', 'Out of Stock'),
@@ -118,11 +119,11 @@ final class WarehouseTable extends PowerGridComponent
         $dell=asset('img/icodel.png');
         $edit=asset('img/ico25.png');
             return [
-                Button::add('edit')
+                /* Button::add('edit')
                 ->slot('<img src="'.$edit.'">')
                     ->id()
                     ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                    ->dispatch('edit', ['rowId' => $row->id]),
+                    ->dispatch('edit', ['rowId' => $row->id]), */
 
                     Button::add('dell')
                     ->slot('<img src="'.$dell.'">')
@@ -141,15 +142,5 @@ final class WarehouseTable extends PowerGridComponent
 
 
 
-    /*
-    public function actionRules($row): array
-    {
-       return [
-            // Hide button edit for ID 1
-            Rule::button('edit')
-                ->when(fn($row) => $row->id === 1)
-                ->hide(),
-        ];
-    }
-    */
+
 }

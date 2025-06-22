@@ -1224,8 +1224,8 @@
                     <nav class="flex justify-center flex-1 -mx-3">
                         @auth
                         <a href="{{ url('/dashboard') }}"
-                            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]">
-                            Store
+                            class="btn btn-info rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]">
+                            Go Store
                         </a>
                         @else
                         <a href="{{ route('login') }}"
@@ -1246,6 +1246,14 @@
 
                 <main class="mt-12">
                     <div class="flex justify-center flex-1 -mx-3">
+                        <a href="{{ url('/dashboard') }}">
+                            <img src="{{ asset('img/logo1.jpg') }}" alt=""
+                                style="width: 300px;height: 300px;display: block;">
+                        </a>
+
+                    </div>
+                    <div class="flex justify-center flex-1 -mx-3">
+
                         Warehouse PP
                     </div>
                 </main>

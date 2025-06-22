@@ -1,7 +1,7 @@
 <div>
-    <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+    <nav x-data="{ open: false }" class="fixed top-0 z-50 w-full bg-white border-b border-gray-100">
         <!-- Primary Navigation Menu Admin -->
-        <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div class="px-4 mx-auto max-w-10xl sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex">
                     <!-- Logo -->
@@ -16,6 +16,10 @@
                         <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                             {{ __('Store ') }}
                         </x-nav-link>
+
+                        {{-- <x-nav-link href="{{ route('store2') }}" :active="request()->routeIs('store2')">
+                            {{ __('Store 2') }}
+                        </x-nav-link> --}}
 
                         <x-nav-link href="{{ route('admin') }}" :active="request()->routeIs('admin')">
                             {{ __('Admin') }}
@@ -56,7 +60,10 @@
 
 
                     </div>
+
                 </div>
+
+
 
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                     <!-- Teams Dropdown -->
@@ -114,11 +121,21 @@
                     </div>
                     @endif
 
+
+
+                    {{-- @livewire('cart')
+                    --}}
+
+
                     <!-- Settings Dropdown -->
                     <div class="relative ms-3">
+
                         <x-dropdown align="right" width="48">
                             <x-slot name="trigger">
                                 @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
+
+
+
                                 <button
                                     class="flex text-sm transition border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300">
                                     <img class="object-cover rounded-full size-8"
@@ -274,3 +291,23 @@
         </div>
     </nav>
 </div>
+
+{{-- <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // Escucha el evento personalizado para actualizar el contador
+        document.addEventListener('updateCartCount', event => {
+
+            // Busca la variable de Alpine y actualiza
+            if (window.Alpine) {
+
+                const el = document.querySelector('[x-data]');
+
+                if (el && el.__x) {
+                    el._x.getUnboundData().cartCount = event.detail;
+                    //el.__x.getReactiveSeat('cartCount').value = event.detail;
+                }
+            }
+        });
+    });
+</script> --}}

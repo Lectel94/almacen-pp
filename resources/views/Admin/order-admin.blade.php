@@ -6,9 +6,9 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-10xl sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-xl sm:rounded-lg" style="padding: 3%;">
-                <h1>Orders Setting</h1>
+                <h1>Orders</h1>
                 <livewire:order-table />
             </div>
         </div>

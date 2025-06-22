@@ -8,11 +8,11 @@
     <div class="py-12">
         <div class="mx-auto max-w-10xl sm:px-6 lg:px-12">
             <div class="overflow-hidden bg-white shadow-xl sm:rounded-lg" style="padding: 2%;">
-                <h1>Products Setting</h1>
+                <h1>Products</h1>
                 <br>
                 <br>
 
-
+                <livewire:add-product />
                 <livewire:product-table />
 
                 @livewire('products.create')
@@ -82,7 +82,8 @@
 
                                 <!-- Campo: list_price -->
                                 <div>
-                                    <label for="editListPrice" class="block mb-1 font-medium">Precio de Lista</label>
+                                    <label for="editListPrice" class="block mb-1 font-medium">Precio de
+                                        Lista</label>
                                     <input type="number" step="0.01" id="editListPrice" class="w-full p-2 border"
                                         placeholder="Precio de Lista">
                                 </div>

@@ -16,6 +16,7 @@ final class VariantTable extends PowerGridComponent
 {
     public string $tableName = 'variant-table-y4gxbo-table';
 
+    protected $listeners = ['variantAdded' => '$refresh'];
     public function setUp(): array
     {
         $this->showCheckBox();

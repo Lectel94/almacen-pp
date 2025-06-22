@@ -45,7 +45,7 @@ final class UserTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('name')
-            ->add('avatar',  fn ($item) => $item->profile_photo_path ? '<img class="w-8 h-8 rounded-full shrink-0 grow-0" src="' . asset("storage/{$item->profile_photo_path}") . '">': '')
+            /* ->add('avatar',  fn ($item) => $item->profile_photo_path ? '<img class="w-8 h-8 rounded-full shrink-0 grow-0" src="' . asset("storage/{$item->profile_photo_path}") . '">': '') */
             ->add('email')
             ->add('created_at');
     }
@@ -59,7 +59,7 @@ final class UserTable extends PowerGridComponent
                 ->searchable()
                 ->editOnClick(hasPermission:true),
 
-                Column::make('Avatar', 'avatar'),
+                /* Column::make('Avatar', 'avatar'), */
 
             Column::make('Email', 'email')
                 ->sortable()
@@ -122,11 +122,11 @@ final class UserTable extends PowerGridComponent
         $edit=asset('img/ico25.png');
 
         return [
-            Button::add('edit')
+            /* Button::add('edit')
             ->slot('<img src="'.$edit.'">')
                 ->id()
                 ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id]),
+                ->dispatch('edit', ['rowId' => $row->id]), */
 
                 Button::add('dell')
                 ->slot('<img src="'.$dell.'">')
