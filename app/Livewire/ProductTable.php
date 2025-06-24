@@ -172,6 +172,7 @@ protected $listeners = [
 
 
         return [
+            Column::action('Action'),
             Column::make('Name', 'name')->sortable()->searchable()->editOnClick(hasPermission:true)->visibleInExport(true),
 
             Column::make('In Stock', 'stock')->sortable()->searchable()->editOnClick(hasPermission:true)->visibleInExport(true),
@@ -197,7 +198,7 @@ protected $listeners = [
                 ->sortable()
                 ->searchable(), */
 
-            Column::action('Action')
+
         ];
     }
 
@@ -307,24 +308,10 @@ protected $listeners = [
     public function edit($rowId): void
     {
         $product = Product::find($rowId);
+
         if ($product) {
             $this->dispatch('edit-product', [
-            'id' => $product->id,
-            'name' => $product->name,
-            'sku' => $product->sku,
-            'barcode' => $product->barcode,
-            'stock' => $product->stock,
-            'list_price' => $product->list_price,
-            'cost_unit' => $product->cost_unit,
-            'total_value' => $product->total_value,
-            'potencial_revenue' => $product->potencial_revenue,
-            'potencial_profit' => $product->potencial_profit,
-            'profit_margin' => $product->profit_margin,
-            'markup' => $product->markup,
-            'warehouse_id' => $product->warehouse_id,
-            'category_id' => $product->category_id,
-            'variant_id' => $product->variant_id,
-            'vendor_id' => $product->vendor_id,
+            'id' => $product->id
         ]);
         } else {
             $this->dispatch('product-not-found');
@@ -359,14 +346,14 @@ protected $listeners = [
         $dell=asset('img/icodel.png');
         $edit=asset('img/ico25.png');
             return [
-               /*  Button::add('edit')
-                ->slot('<img src="'.$edit.'">')
+                Button::add('edit')
+                ->slot('<i class="fas fa-pencil-alt"></i>')
                     ->id()
-                    ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                    ->dispatch('edit', ['rowId' => $row->id]), */
+                    ->class(' pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
+                    ->dispatch('edit', ['rowId' => $row->id]),
 
                     Button::add('dell')
-                    ->slot('<img src="'.$dell.'">')
+                    ->slot('<i class="fas fa-trash"></i>')
                     ->id()
                     ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
                     ->dispatch('dell', ['rowId' => $row->id])

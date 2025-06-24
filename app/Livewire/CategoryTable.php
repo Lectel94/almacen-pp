@@ -54,6 +54,7 @@ final class CategoryTable extends PowerGridComponent
     public function columns(): array
     {
         return [
+            Column::action('Action'),
             Column::make('Name', 'name')
             ->editOnClick(hasPermission:true)
             ->sortable()
@@ -63,7 +64,7 @@ final class CategoryTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::action('Action')
+
         ];
     }
 
@@ -119,7 +120,7 @@ final class CategoryTable extends PowerGridComponent
                     ->dispatch('edit', ['rowId' => $row->id]), */
 
                     Button::add('dell')
-                    ->slot('<img src="'.$dell.'">')
+                    ->slot('<i class="fas fa-trash"></i>')
                     ->id()
                     ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
                     ->dispatch('dell', ['rowId' => $row->id])

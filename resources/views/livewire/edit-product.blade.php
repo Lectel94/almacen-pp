@@ -1,89 +1,140 @@
-<div>
-    <div class="container mx-auto lg:px-24" style="padding-top: 20px;">
-        <div class="px-4 py-2 text-center rounded mb-7" style="background-color: #D9F99D;">
-            <h1 class="text-xl font-bold text-gray-900">Demo E-Commerce Experience Powered by TALL (Tailwind, Alpine,
-                Laravel, Livewire)</h1>
-            <p class="mt-2 text-sm text-gray-600">This is just a demo page developed by <a
-                    href="https://github.com/oldravian" target="_blank" class="text-blue-500 underline">Habib</a> to
-                demonstrate his TALL stack skills.</p>
-        </div>
-    </div>
+<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+    style="display: {{ $showModalEdit ? 'flex' : 'none' }};" wire:click.self="close" {{-- para cerrar clickeando afuera
+    --}}>
+    <div class="w-full max-w-2xl p-6 space-y-4 bg-white rounded-lg">
 
+        <h2 class="mb-4 text-xl font-semibold">Editar Producto</h2>
 
-    <div class=" lg:px-24">
-        <!-- Modal header -->
-        <div class="flex items-center justify-between p-4 rounded-t md:p-5">
-            <h3 class="text-3xl font-medium text-gray-900 dark:text-white">
-                Edit Product
-            </h3>
-        </div>
-        <div class="p-4 space-y-4 md:p-5">
-            <form wire:submit="submit" class="space-y-6">
-                {{-- <div>
-                    <label for="photos" class="block text-sm font-medium text-gray-700">Upload photos</label>
-                    <div class="flex justify-center px-6 py-12 mt-1 border-gray-300 rounded-md"
-                        style="border-width:1px">
-                        <div class="space-y-1 text-center">
-                            <label for="file-upload"
-                                class="relative inline-flex items-center justify-center px-4 py-2 bg-white border rounded-md cursor-pointer focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-green-500"
-                                style="border-color: #D9F99D">
-                                <span>Upload photo</span>
-                                <input id="file-upload" wire:model="form.photo" name="file-upload" type="file"
-                                    class="sr-only">
-                            </label>
-                            @if ($form->photo)
-                            <p class="mt-2 text-sm text-gray-500">{{ $form->photo->getClientOriginalName() }}</p>
-                            @elseif ($form->product->photo)
-                            <!-- Display existing photo if no new photo is uploaded -->
-                            <img src="{{ asset($form->product->photo) }}" alt="Existing photo"
-                                class="object-cover w-32 h-32 mt-2 rounded-md">
-                            <p class="mt-2 text-sm text-gray-500">Current photo</p>
-                            @endif
-                        </div>
-                    </div>
-                    @error('form.photo') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
-                </div> --}}
-                <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700">Title</label>
-                    <input type="text" wire:model="form.name" name="name" id="name"
-                        class="block w-full mt-1 border-gray-300 rounded-md shadow-sm sm:text-sm">
-                    @error('form.name') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
-                </div>
-                <div>
-                    <label for="description" class="block text-sm font-medium text-gray-700">Describe your item</label>
-                    <textarea id="description" wire:model="form.description" name="description" rows="4"
-                        class="block w-full mt-1 border-gray-300 rounded-md shadow-sm sm:text-sm"></textarea>
-                    @error('form.description') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
-                </div>
-                <div>
-                    <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
-                    <select id="category" wire:model="form.category" name="category"
-                        class="block w-full py-2 pl-3 pr-10 mt-1 text-base border-gray-300 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
-                        <option value="" selected disabled>Select</option>
-                        @foreach ($form->categories as $cat)
-                        <option value="{{ $cat->id }}">{{ $cat->name }}</option>
-                        @endforeach
-                    </select>
-                    @error('form.category') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
-                </div>
-                <div>
-                    <label for="price" class="block text-sm font-medium text-gray-700">Item price</label>
-                    <div class="relative mt-1 rounded-md shadow-sm">
-                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <span class="text-gray-500 sm:text-sm">£</span>
-                        </div>
-                        <input type="text" wire:model="form.price" name="price" id="price"
-                            class="block w-full text-right border-gray-300 rounded-md pl-7 pr-7 sm:text-sm"
-                            placeholder="00.00">
-                    </div>
-                    @error('form.price') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
-                </div>
-                <div class="flex items-center border-gray-200 rounded-b dark:border-gray-600">
-                    <button type="submit" class="w-full px-4 py-2 rounded" style="background-color: #D9F99D;">Update
-                        item
-                    </button>
-                </div>
-            </form>
-        </div>
+        <form wire:submit.prevent="updateProduct" class="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <!-- Campo Nombre -->
+            <div class="col-span-1">
+                <label class="block mb-1 font-semibold">Name</label>
+                <input wire:model="name" type="text" class="w-full p-2 border rounded" />
+                @error('name') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Campo Image-Url -->
+            <div class="col-span-1">
+                <label class="block mb-1 font-semibold">Imagen</label>
+                <input wire:model="image_url" type="file" class="w-full p-2 border rounded" />
+                @error('image_url') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Warehouse -->
+            <div class="col-span-1">
+                <label class="block mb-1 font-semibold">Warehouse</label>
+                <select wire:model="warehouse_id" class="w-full p-2 border rounded">
+                    <option value="">Select</option>
+                    @foreach($warehouses as $warehouse)
+                    <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
+                    @endforeach
+                </select>
+                @error('warehouse_id') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Categoría -->
+            <div class="col-span-1">
+                <label class="block mb-1 font-semibold">Category</label>
+                <select wire:model="category_id" class="w-full p-2 border rounded">
+                    <option value="">Select</option>
+                    @foreach($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+                @error('category_id') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Variante -->
+            <div class="col-span-1">
+                <label class="block mb-1 font-semibold">Variant</label>
+                <select wire:model="variant_id" class="w-full p-2 border rounded">
+                    <option value="">Select</option>
+                    @foreach($variants as $variant)
+                    <option value="{{ $variant->id }}">{{ $variant->name }}</option>
+                    @endforeach
+                </select>
+                @error('variant_id') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Vendedor -->
+            <div class="col-span-1">
+                <label class="block mb-1 font-semibold">Vendor</label>
+                <select wire:model="vendor_id" class="w-full p-2 border rounded">
+                    <option value="">Select</option>
+                    @foreach($vendors as $vendor)
+                    <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
+                    @endforeach
+                </select>
+                @error('vendor_id') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Campo SKU -->
+            <div class="col-span-1">
+                <label class="block mb-1 font-semibold">SKU</label>
+                <input wire:model="sku" type="text" class="w-full p-2 border rounded" />
+                @error('sku') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Campo Barcode -->
+            <div class="col-span-1">
+                <label class="block mb-1 font-semibold">Barcode</label>
+                <input wire:model="barcode" type="text" class="w-full p-2 border rounded" />
+            </div>
+
+            <!-- Stock -->
+            <div class="col-span-1">
+                <label class="block mb-1 font-semibold">Stock</label>
+                <input wire:model="stock" type="number" class="w-full p-2 border rounded" />
+            </div>
+
+            <!-- Lista de precio -->
+            <div class="col-span-1">
+                <label class="block mb-1 font-semibold">List Price</label>
+                <input wire:model="list_price" type="number" step="0.01" class="w-full p-2 border rounded" />
+            </div>
+
+            <!-- Costo por unidad -->
+            <div class="col-span-1">
+                <label class="block mb-1 font-semibold">Cost Unit</label>
+                <input wire:model="cost_unit" type="number" step="0.01" class="w-full p-2 border rounded" />
+            </div>
+
+            <!-- Valor total -->
+            <div class="col-span-1">
+                <label class="block mb-1 font-semibold">Total Value</label>
+                <input wire:model="total_value" type="number" step="0.01" class="w-full p-2 border rounded" />
+            </div>
+
+            <!-- Potencial Revenue -->
+            <div class="col-span-1">
+                <label class="block mb-1 font-semibold">Potencial Revenue</label>
+                <input wire:model="potencial_revenue" type="number" step="0.01" class="w-full p-2 border rounded" />
+            </div>
+
+            <!-- Potencial Profit -->
+            <div class="col-span-1">
+                <label class="block mb-1 font-semibold">Potencial Profit</label>
+                <input wire:model="potencial_profit" type="number" step="0.01" class="w-full p-2 border rounded" />
+            </div>
+
+            <!-- Margen de ganancia -->
+            <div class="col-span-1">
+                <label class="block mb-1 font-semibold">Profit Margin (%)</label>
+                <input wire:model="profit_margin" type="number" step="0.01" class="w-full p-2 border rounded" />
+            </div>
+
+            <!-- Markup -->
+            <div class="col-span-1">
+                <label class="block mb-1 font-semibold">Markup</label>
+                <input wire:model="markup" type="number" step="0.01" class="w-full p-2 border rounded" />
+            </div>
+
+            <!-- Botones -->
+            <div class="flex justify-end col-span-2 mt-4 space-x-2">
+                <button type="button" @click="$wire.dispatch('close')"
+                    class="px-4 py-2 bg-gray-300 rounded">Cancel</button>
+                <button type="submit" class="px-4 py-2 text-white bg-green-600 rounded">Save</button>
+            </div>
+        </form>
     </div>
 </div>

@@ -49,6 +49,7 @@ final class InvoiceTable extends PowerGridComponent
     public function columns(): array
     {
         return [
+            Column::action('Action'),
             Column::make('Id', 'id'),
             Column::make('Created at', 'created_at_formatted', 'created_at')
                 ->sortable(),
@@ -57,7 +58,7 @@ final class InvoiceTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::action('Action')
+
         ];
     }
 
