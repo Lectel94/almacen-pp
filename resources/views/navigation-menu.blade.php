@@ -17,9 +17,13 @@
                         {{ __('Store') }}
                     </x-nav-link>
 
+
+                    @role('Admin')
                     <x-nav-link href="{{ route('admin') }}" :active="request()->routeIs('admin')">
                         {{ __('Admin') }}
                     </x-nav-link>
+                    @endrole
+
                 </div>
             </div>
 

@@ -21,6 +21,14 @@
                     @error('name') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
                 </div>
 
+                <!-- Campo Image-Url -->
+                <div class="col-span-1">
+                    <label class="block mb-1 font-semibold">Imagen</label>
+                    <input wire:model="image_url" type="file" class="w-full p-2 border rounded" />
+                    @error('image_url') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
+                </div>
+
+
                 <!-- Warehouse -->
                 <div class="col-span-1">
                     <label class="block mb-1 font-semibold">Warehouse</label>

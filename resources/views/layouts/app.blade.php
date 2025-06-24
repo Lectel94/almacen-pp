@@ -15,6 +15,18 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+
+
+    <!-- Libraries Stylesheet -->
+    <link href="{{asset('/lib/lightbox/css/lightbox.min.css')}}" rel="stylesheet">
+    <link href="{{asset('/lib/owlcarousel/assets/owl.carousel.min.css')}}" rel="stylesheet">
+
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{{asset('/css/bootstrap.min.css')}}" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{asset('/css/style.css')}}">
+
     <!-- Styles -->
     @livewireStyles
 </head>
@@ -43,6 +55,18 @@
     @stack('modals')
 
     @livewireScripts
+
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{asset('/lib/easing/easing.min.js')}}"></script>
+    <script src="{{asset('/lib/waypoints/waypoints.min.js')}}"></script>
+    <script src="{{asset('/lib/lightbox/js/lightbox.min.js')}}"></script>
+    <script src="{{asset('/lib/owlcarousel/owl.carousel.min.js')}}"></script>
+
+    <!-- Template Javascript -->
+
+    <script type="text/javascript" src="{{asset('/js/main.js')}}"></script>
 </body>
 
 </html>

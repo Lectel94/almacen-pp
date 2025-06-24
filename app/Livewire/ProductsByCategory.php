@@ -19,12 +19,18 @@ class ProductsByCategory extends Component
     public $cartItems = []; // contiene los productos y cantidad
     public $quantities = [];
 
+
+
     protected $paginationTheme = 'tailwind';
 
     protected $listeners = [
         'addProductById' => 'addProductById',
         'searchUpdated' => 'updateSearch',
-        'sortUpdated' => 'updateSort',];
+        'sortUpdated' => 'updateSort',
+        'openModal'=>'openModal',
+        'add-cart-modal'=>'add_cart_modal',
+
+    ];
 
 
 
@@ -38,6 +44,30 @@ class ProductsByCategory extends Component
         } */
     }
 
+
+    public function add_cart_modal($data){
+        $productId = $data['id'];
+        $quantity = $data['quantity'] ?? 1;
+        $product  =Product::find($productId);
+        if($product){
+            if (isset($this->cartItems[$productId])) {
+                        $this->cartItems[$productId]['quantity'] += $quantity;
+                    } else {
+                        $this->cartItems[$productId] = [
+                            'product' => $product,
+                            'quantity' => $quantity,
+                        ];
+                    }
+
+                    $this->saveCart();
+
+                    $this->dispatch('updateCart', count($this->cartItems));
+        }
+
+    }
+    public function openModal($id){
+        $this->dispatch('open-modal-product',$id);
+    }
     public function updateSearch($search)
     {
         $this->resetPage();

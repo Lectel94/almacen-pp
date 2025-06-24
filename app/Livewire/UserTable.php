@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Blade;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
@@ -12,6 +13,7 @@ use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use Spatie\Permission\Models\Role;
 
 final class UserTable extends PowerGridComponent
 {
@@ -32,7 +34,10 @@ final class UserTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return User::query();
+        return User::query()
+    ->leftJoin('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')    // unión con la tabla de relación
+    ->leftJoin('roles', 'model_has_roles.role_id', '=', 'roles.id')             // unión con la tabla de roles
+    ->select('users.*', 'roles.name as role_name', 'roles.id as role_id');
     }
 
     public function relationSearch(): array
@@ -42,12 +47,26 @@ final class UserTable extends PowerGridComponent
 
     public function fields(): PowerGridFields
     {
+        $options = $this->roleSelectOptions();
+
+
         return PowerGrid::fields()
             ->add('id')
             ->add('name')
             /* ->add('avatar',  fn ($item) => $item->profile_photo_path ? '<img class="w-8 h-8 rounded-full shrink-0 grow-0" src="' . asset("storage/{$item->profile_photo_path}") . '">': '') */
             ->add('email')
-            ->add('created_at');
+            ->add('created_at')
+
+            ->add('role_id', fn ($p) => intval($p->role_id))
+
+            ->add('role_id', fn ($dish) => intval($dish->role_id))
+            ->add('role_name', function ($dish) use ($options) {
+                if (is_null($dish->role_id)) {
+
+                }
+
+                return Blade::render('<x-select-role type="occurrence" :options=$options  :dishId=$dishId  :selected=$selected/>', ['options' => $options, 'dishId' => intval($dish->id), 'selected' => intval($dish->role_id)]);
+            });
     }
 
     public function columns(): array
@@ -58,6 +77,10 @@ final class UserTable extends PowerGridComponent
                 ->sortable()
                 ->searchable()
                 ->editOnClick(hasPermission:true),
+
+                 Column::make('Role', 'role_name', 'role_id')->sortable(),
+
+
 
                 /* Column::make('Avatar', 'avatar'), */
 
@@ -80,6 +103,51 @@ final class UserTable extends PowerGridComponent
     {
         return [
         ];
+    }
+
+    public function roleSelectOptions(): \Illuminate\Support\Collection
+    {
+        return Role::all(['id', 'name'])->mapWithKeys(function ($item) {
+            return [
+                 $item->id => match (strtolower($item->name)) {
+
+                default => $item->name ,
+            },
+            ];
+        });
+    }
+
+     #[\Livewire\Attributes\On('roleChanged')]
+    public function roleChanged($roleId, $iduser): void
+    {
+        $user=User::find($iduser);
+        $role=Role::find($roleId);
+
+        if($iduser){
+            if($role){
+                $user->syncRoles($role);
+                $this->dispatch('swal', [
+                'title' => trans('Role asignado'),
+                'icon' => 'success',
+                'timer' => 3000,
+            ]);
+            }else{
+                 $this->dispatch('swal', [
+                'title' => trans('Role no encontrado'),
+                'icon' => 'warning',
+                'timer' => 3000,
+            ]);
+            }
+
+        }
+        else{
+             $this->dispatch('swal', [
+                'title' => trans('Usuario no encontrado'),
+                'icon' => 'warning',
+                'timer' => 3000,
+            ]);
+        }
+
     }
 
     #[\Livewire\Attributes\On('edit')]

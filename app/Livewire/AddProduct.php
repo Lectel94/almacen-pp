@@ -8,15 +8,19 @@ use App\Models\Variant;
 use App\Models\Vendor;
 use App\Models\Warehouse;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class AddProduct extends Component
 {
+    use WithFileUploads;
     // Todos los campos del modelo Product como propiedades públicas
     public $name, $sku, $barcode, $stock, $list_price, $cost_unit, $total_value, $potencial_revenue, $potencial_profit, $profit_margin, $markup, $warehouse_id, $category_id, $variant_id, $vendor_id;
     public $warehouses = [];
     public $variants = [];
     public $vendors = [];
     public $categories = [];
+
+    public $image_url;
 
     public function mount()
     {
@@ -27,6 +31,7 @@ class AddProduct extends Component
     }
     protected $rules = [
         'name' => 'required|string|max:255',
+        'image_url' => 'nullable|image|max:2048', // 2MB max, ajusta si quieres
         'sku' => 'required|string|max:255',
         'barcode' => 'nullable|string|max:255',
         'stock' => 'required|integer',
@@ -47,8 +52,15 @@ class AddProduct extends Component
     {
         $this->validate();
 
+        $image_path = null;
+        if ($this->image_url) {
+            // Procesar y subir la imagen
+            $image_path = $this->image_url->store('products', 'public');
+        }
+
         Product::create([
             'name' => $this->name,
+            'image_url' => $image_path ?? null,
             'sku' => $this->sku,
             'barcode' => $this->barcode,
             'stock' => $this->stock,

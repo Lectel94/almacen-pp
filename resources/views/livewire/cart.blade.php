@@ -9,7 +9,7 @@
     <div x-data>
         <button @click="$dispatch('toggle-cart')" class="relative p-2 text-black bg-white rounded" title="Ver carrito">
             🛒
-            <span class="absolute top-0 right-0 px-1 text-xs text-white bg-green-500 rounded-full">
+            <span class="absolute top-0 right-0 px-1 text-xs text-white bg-green-600 rounded-full">
                 {{ count($cartItems) }}
             </span>
         </button>
@@ -66,7 +66,7 @@
                 @foreach($cartItems as $productId => $item)
                 <li class="flex items-center justify-between p-2 mb-4 border rounded-lg shadow-sm bg-gray-50">
                     <div class="flex items-center w-full space-x-4">
-                        <img src="{{ $item['product']->image_url ?? 'https://via.placeholder.com/80' }}"
+                        <img src="{{ asset($item['product']->image_url ? 'storage/' .$item['product']->image_url : '/img/logo1.jpg') }}"
                             alt="{{ $item['product']->name }}" class="object-cover w-20 h-20 rounded" />
 
                         <div class="flex-1">
