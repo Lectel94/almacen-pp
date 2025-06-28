@@ -25,7 +25,7 @@
                 <div
                     class="flex flex-col items-center justify-center mt-2 xl:mt-0 xl:flex-row xl:items-center xl:space-x-8 xl:text-left">
                     <div
-                        class="px-3 py-1 mb-2 font-semibold text-{{$order->status->color}}-600 bg-blue-100 rounded-lg xl:mb-0 w-fit">
+                        class="px-3 py-1 mb-2 font-semibold text-{{$order->status->color}}-500 bg-blue-100 rounded-lg xl:mb-0 w-fit">
                         {{ $order->status->description }}
                     </div>
                     <!-- Total -->
