@@ -23,7 +23,10 @@
 
                 <h1 class="alert-info">Su orden con numero LFD-{{ $order->id }} fue creada correctamente</h1>
 
-
+                <a href="{{ route('my-orders') }}"
+                    class="block w-full px-4 py-2 font-semibold text-center text-white bg-green-600 rounded hover:bg-green-700">
+                    Mis Órdenes
+                </a>
 
 
                 @push('js-livewire')
