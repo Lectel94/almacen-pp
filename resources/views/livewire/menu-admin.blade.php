@@ -13,13 +13,11 @@
 
                     <!-- Navigation Links -->
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                        {{-- <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                             {{ __('Store ') }}
-                        </x-nav-link>
-
-                        {{-- <x-nav-link href="{{ route('store2') }}" :active="request()->routeIs('store2')">
-                            {{ __('Store 2') }}
                         </x-nav-link> --}}
+
+
 
                         <x-nav-link href="{{ route('admin') }}" :active="request()->routeIs('admin')">
                             {{ __('Admin') }}
@@ -208,9 +206,57 @@
         <!-- Responsive Navigation Menu -->
         <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
             <div class="pt-2 pb-3 space-y-1">
-                <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                {{-- <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                     {{ __('Dashboard') }}
+                </x-responsive-nav-link> --}}
+
+                {{-- <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                    {{ __('Store ') }}
+                </x-responsive-nav-link> --}}
+
+
+
+                <x-responsive-nav-link href="{{ route('admin') }}" :active="request()->routeIs('admin')">
+                    {{ __('Admin') }}
                 </x-responsive-nav-link>
+
+                <x-responsive-nav-link href="{{ route('admin-users') }}" :active="request()->routeIs('admin-users')">
+                    {{ __('Users') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link href="{{ route('admin-warehouse') }}"
+                    :active="request()->routeIs('admin-warehouse')">
+                    {{ __('Warehouse') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link href="{{ route('admin-vendor') }}" :active="request()->routeIs('admin-vendor')">
+                    {{ __('Vendors') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link href="{{ route('admin-category') }}"
+                    :active="request()->routeIs('admin-category')">
+                    {{ __('Categorias') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link href="{{ route('admin-variant') }}"
+                    :active="request()->routeIs('admin-variant')">
+                    {{ __('Variants') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link href="{{ route('admin-product') }}"
+                    :active="request()->routeIs('admin-product')">
+                    {{ __('Productos') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link href="{{ route('admin-order') }}" :active="request()->routeIs('admin-order')">
+                    {{ __('Pedidos') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link href="{{ route('admin-invoice') }}"
+                    :active="request()->routeIs('admin-invoice')">
+                    {{ __('Facturas') }}
+                </x-responsive-nav-link>
+
             </div>
 
             <!-- Responsive Settings Options -->

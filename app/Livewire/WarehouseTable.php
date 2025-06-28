@@ -15,6 +15,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 final class WarehouseTable extends PowerGridComponent
 {
     public string $tableName = 'warehouse-table-ihj2u1-table';
+    public int $id_dell=0;
 
     protected $listeners = ['warehouseAdded' => '$refresh'];
     public function setUp(): array
@@ -94,18 +95,64 @@ final class WarehouseTable extends PowerGridComponent
 
 
     #[\Livewire\Attributes\On('dell')]
-    public function dell($rowId): void
-    {
-        $w = Warehouse::find($rowId);
-        if ($w) {
-            $name = $w->name;
-            $w->delete();
+    public function dell(): void
+{
+    if ($this->id_dell != 0) {
+        $warehouse = Warehouse::find($this->id_dell);
+        if ($warehouse) {
+            // Verificar si hay productos vinculados
+            if ($warehouse->products()->count() > 0) {
+                // Mostrar alerta: no se puede eliminar
+                $this->dispatch('swal', [
+                    'title' => trans('Existen productos en este almacen, por tanto no se puede eliminar.'), // agrega este mensaje en tu archivo de traducción
+                    'icon' => 'warning',
+                    'timer' => 8000,
+                ]);
+                return; // termina la función aquí
+            }
+
+            // Si no hay productos, se puede eliminar
+            $warehouse->delete();
+
             $this->dispatch('swal', [
                 'title' => trans('warehouse.eliminado'),
                 'icon' => 'success',
                 'timer' => 3000,
             ]);
             $this->resetPage();
+
+        } else {
+            // Almacen no encontrado
+            $this->dispatch('swal', [
+                'title' => trans('warehouse.noencontrado'),
+                'icon' => 'warning',
+                'timer' => 3000,
+            ]);
+        }
+    } else {
+        // ID inválido
+        $this->dispatch('swal', [
+            'title' => trans('warehouse.noencontrado'),
+            'icon' => 'warning',
+            'timer' => 3000,
+        ]);
+    }
+}
+
+
+    #[\Livewire\Attributes\On('verif_dell')]
+    public function verif_dell($rowId): void
+    {
+        $this->id_dell=$rowId;
+        $w = Warehouse::find($rowId);
+        if ($w) {
+
+
+            $this->dispatch('verif_swal', [
+
+                'id_dell' => $rowId,
+            ]);
+
         } else {
             $this->dispatch('swal', [
                 'title' => trans('warehouse.noencontrado'),
@@ -130,7 +177,7 @@ final class WarehouseTable extends PowerGridComponent
                     ->slot('<i class="fas fa-trash"></i>')
                     ->id()
                     ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                    ->dispatch('dell', ['rowId' => $row->id])
+                    ->dispatch('verif_dell', ['rowId' => $row->id]),
             ];
     }
 

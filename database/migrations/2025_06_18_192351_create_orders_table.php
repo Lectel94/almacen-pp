@@ -11,16 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
+
+
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->string('number')->nullable();
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('company_name')->nullable();
+            $table->string('address');
+            $table->string('city');
+            $table->string('country');
+            $table->string('postcode');
+            $table->string('mobile');
+            $table->string('email');
+            $table->text('notes')->nullable();
+            $table->decimal('total', 10, 2);
 
-            $table->text('number');
-            $table->text('status');
-            $table->text('description')->nullable();
-            $table->unsignedBigInteger('user_id');
-            $table->dateTime('order_date');
             $table->timestamps();
-
+            $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

@@ -26,4 +26,7 @@ import SlimSelect from 'slim-select'
 window.SlimSelect = SlimSelect;
 
 
+import Swal from 'sweetalert2';
+window.Swal = Swal;
+
 

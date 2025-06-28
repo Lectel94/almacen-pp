@@ -19,6 +19,7 @@ final class CategoryTable extends PowerGridComponent
     public string $tableName = 'category-table-8dp3bj-table';
     use WithExport;
     protected $listeners = ['categoryAdded' => '$refresh'];
+    public int $id_dell=0;
     public function setUp(): array
     {
         $this->showCheckBox();
@@ -87,23 +88,66 @@ final class CategoryTable extends PowerGridComponent
 
 
     #[\Livewire\Attributes\On('dell')]
-    public function dell($rowId): void
+    public function dell(): void
     {
+        if($this->id_dell!=0){
+            $c = Category::find($this->id_dell);
+                    if ($c) {
+                            // Verificar si hay productos vinculados
+                                if ($c->products()->count() > 0) {
+                                    // Mostrar alerta: no se puede eliminar
+                                    $this->dispatch('swal', [
+                                        'title' => trans('Existen productos en esta categoria, por tanto no se puede eliminar.'), // agrega este mensaje en tu archivo de traducción
+                                        'icon' => 'warning',
+                                        'timer' => 8000,
+                                    ]);
+                                    return; // termina la función aquí
+                                }
+
+                        $name = $c->name;
+                        $c->delete();
+                        $this->dispatch('swal', [
+                            'title' => trans('category.eliminado'),
+                            'icon' => 'success',
+                            'timer' => 3000,
+                        ]);
+                        $this->resetPage();
+                    } else {
+                        $this->dispatch('swal', [
+                            'title' => trans('category.noencontrado'),
+                            'icon' => 'warning',
+                            'timer' => 3000,
+                        ]);
+                    }
+        }else{
+            $this->dispatch('swal', [
+                            'title' => trans('category.noencontrado'),
+                            'icon' => 'warning',
+                            'timer' => 3000,
+                        ]);
+        }
+
+    }
+
+
+    #[\Livewire\Attributes\On('verif_dell')]
+    public function verif_dell($rowId): void
+    {
+        $this->id_dell=$rowId;
         $c = Category::find($rowId);
         if ($c) {
-            $name = $c->name;
-            $c->delete();
-            $this->dispatch('swal', [
-                'title' => trans('category.eliminado'),
-                'icon' => 'success',
-                'timer' => 1000,
+
+
+            $this->dispatch('verif_swal', [
+
+                'id_dell' => $rowId,
             ]);
-            $this->resetPage();
+
         } else {
             $this->dispatch('swal', [
                 'title' => trans('category.noencontrado'),
                 'icon' => 'warning',
-                'timer' => 1000,
+                'timer' => 3000,
             ]);
         }
     }
@@ -123,7 +167,7 @@ final class CategoryTable extends PowerGridComponent
                     ->slot('<i class="fas fa-trash"></i>')
                     ->id()
                     ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                    ->dispatch('dell', ['rowId' => $row->id])
+                    ->dispatch('verif_dell', ['rowId' => $row->id]),
             ];
     }
 

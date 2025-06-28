@@ -116,6 +116,7 @@
                                                         d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 7M17 13l1.5 7M6 21h.01M18 21h.01">
                                                     </path>
                                                 </svg>
+                                                {{-- <i class="fa fa-shopping-cart"></i> --}}
 
                                             </div>
                                         </div>

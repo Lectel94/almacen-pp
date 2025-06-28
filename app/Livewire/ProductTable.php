@@ -34,6 +34,8 @@ final class ProductTable extends PowerGridComponent
     public int $variantId = 0;
     public int $vendorId = 0;
 
+    public int $id_dell=0;
+
 
 protected $listeners = [
         'productCreated' => 'refreshProducts',
@@ -320,18 +322,50 @@ protected $listeners = [
 
 
     #[\Livewire\Attributes\On('dell')]
-    public function dell($rowId): void
+    public function dell(): void
     {
-        $product = Product::find($rowId);
-        if ($product) {
-            $name = $product->name;
-            $product->delete();
+        if($this->id_dell!=0){
+            $p = Product::find($this->id_dell);
+                    if ($p) {
+                        $name = $p->name;
+                        $p->delete();
+                        $this->dispatch('swal', [
+                            'title' => trans('product.eliminado'),
+                            'icon' => 'success',
+                            'timer' => 3000,
+                        ]);
+                        $this->resetPage();
+                    } else {
+                        $this->dispatch('swal', [
+                            'title' => trans('product.noencontrado'),
+                            'icon' => 'warning',
+                            'timer' => 3000,
+                        ]);
+                    }
+        }else{
             $this->dispatch('swal', [
-                'title' => trans('product.eliminado'),
-                'icon' => 'success',
-                'timer' => 3000,
+                            'title' => trans('product.noencontrado'),
+                            'icon' => 'warning',
+                            'timer' => 3000,
+                        ]);
+        }
+
+    }
+
+
+    #[\Livewire\Attributes\On('verif_dell')]
+    public function verif_dell($rowId): void
+    {
+        $this->id_dell=$rowId;
+        $p = Product::find($rowId);
+        if ($p) {
+
+
+            $this->dispatch('verif_swal', [
+
+                'id_dell' => $rowId,
             ]);
-            $this->resetPage();
+
         } else {
             $this->dispatch('swal', [
                 'title' => trans('product.noencontrado'),
@@ -356,7 +390,7 @@ protected $listeners = [
                     ->slot('<i class="fas fa-trash"></i>')
                     ->id()
                     ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                    ->dispatch('dell', ['rowId' => $row->id])
+                    ->dispatch('verif_dell', ['rowId' => $row->id]),
             ];
     }
 

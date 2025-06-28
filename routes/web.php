@@ -12,6 +12,9 @@ use App\Livewire\Products\Index;
 /* use App\Livewire\Counter; */
 use App\Livewire\EditProduct;
 use App\Livewire\ProductsByCategory;
+use App\Models\Invoice;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 Route::get('/', function () {
     return view('welcome');
@@ -28,6 +31,40 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('Store.index');
     })->name('dashboard');
+
+    Route::get('/cart', function () {
+        return view('Store.step-cart');
+    })->name('step-cart');
+
+    Route::get('/checkout', function () {
+        return view('Store.step-checkout');
+    })->name('step-checkout');
+
+    Route::get('/order-success/{order}', function (App\Models\Order $order) {
+    return view('Store.order-success', compact('order'));
+    })->name('order-success');
+
+    Route::get('/contact', function () {
+            return view('Store.contact');
+        })->name('contact');
+
+        Route::get('/my-orders', function () {
+            return view('Store.my-orders');
+        })->name('my-orders');
+
+
+        Route::get('/pdf', function () {
+            $invoice=Invoice::find(6);
+
+            // Generar PDF
+        $pdf = Pdf::loadView('Invoice.pdf', compact('invoice'));
+
+        // Guardar el PDF en almacenamiento (opcional)
+        $pdfPath = 'invoices/invo_'.$invoice->order->number.'.pdf';
+        Storage::put($pdfPath, $pdf->output());
+
+            return view('Invoice.pdf',compact('invoice'));
+        })->name('pdf');
 
 
     /* Route::get('/store2', ProductsByCategory::class)->name('store2'); */

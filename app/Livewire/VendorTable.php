@@ -15,6 +15,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 final class VendorTable extends PowerGridComponent
 {
     public string $tableName = 'vendor-table-cl1r8n-table';
+    public int $id_dell=0;
 
     protected $listeners = ['vendorAdded' => '$refresh'];
     public function setUp(): array
@@ -82,23 +83,68 @@ final class VendorTable extends PowerGridComponent
 
 
     #[\Livewire\Attributes\On('dell')]
-    public function dell($rowId): void
+    public function dell(): void
     {
+        if($this->id_dell!=0){
+            $v = Vendor::find($this->id_dell);
+                    if ($v) {
+
+                        // Verificar si hay productos vinculados
+                                if ($v->products()->count() > 0) {
+                                    // Mostrar alerta: no se puede eliminar
+                                    $this->dispatch('swal', [
+                                        'title' => trans('Existen productos de este proovedor, por tanto no se puede eliminar.'), // agrega este mensaje en tu archivo de traducción
+                                        'icon' => 'warning',
+                                        'timer' => 8000,
+                                    ]);
+                                    return; // termina la función aquí
+                                }
+
+
+                        $name = $v->name;
+                        $v->delete();
+                        $this->dispatch('swal', [
+                            'title' => trans('vendor.eliminado'),
+                            'icon' => 'success',
+                            'timer' => 3000,
+                        ]);
+                        $this->resetPage();
+                    } else {
+                        $this->dispatch('swal', [
+                            'title' => trans('vendor.noencontrado'),
+                            'icon' => 'warning',
+                            'timer' => 3000,
+                        ]);
+                    }
+        }else{
+            $this->dispatch('swal', [
+                            'title' => trans('vendor.noencontrado'),
+                            'icon' => 'warning',
+                            'timer' => 3000,
+                        ]);
+        }
+
+    }
+
+
+    #[\Livewire\Attributes\On('verif_dell')]
+    public function verif_dell($rowId): void
+    {
+        $this->id_dell=$rowId;
         $v = Vendor::find($rowId);
         if ($v) {
-            $name = $v->name;
-            $v->delete();
-            $this->dispatch('swal', [
-                'title' => trans('vendor.eliminado'),
-                'icon' => 'success',
-                'timer' => 1000,
+
+
+            $this->dispatch('verif_swal', [
+
+                'id_dell' => $rowId,
             ]);
-            $this->resetPage();
+
         } else {
             $this->dispatch('swal', [
                 'title' => trans('vendor.noencontrado'),
                 'icon' => 'warning',
-                'timer' => 1000,
+                'timer' => 3000,
             ]);
         }
     }
@@ -118,7 +164,7 @@ final class VendorTable extends PowerGridComponent
                     ->slot('<i class="fas fa-trash"></i>')
                     ->id()
                     ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                    ->dispatch('dell', ['rowId' => $row->id])
+                    ->dispatch('verif_dell', ['rowId' => $row->id]),
             ];
     }
 

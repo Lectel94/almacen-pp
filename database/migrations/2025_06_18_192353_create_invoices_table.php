@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('order_id');
-            $table->dateTime('issued_date');
-            $table->decimal('total_amount', 12, 2);
+            $table->unsignedBigInteger('order_id');   // Relaciona con la orden
+            $table->date('issued_date');                      // Fecha de emisión de la factura
+            $table->decimal('total_amount', 10, 2);          // Monto total
+
             $table->timestamps();
 
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');

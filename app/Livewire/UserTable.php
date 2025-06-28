@@ -18,6 +18,7 @@ use Spatie\Permission\Models\Role;
 final class UserTable extends PowerGridComponent
 {
     public string $tableName = 'user-table-7u1ekp-table';
+    public int $id_dell=0;
 
     public function setUp(): array
     {
@@ -164,21 +165,53 @@ final class UserTable extends PowerGridComponent
 
 
     #[\Livewire\Attributes\On('dell')]
-    public function dell($rowId): void
+    public function dell(): void
     {
-        $user = User::find($rowId);
-        if ($user) {
-            $name = $user->name;
-            $user->delete();
+        if($this->id_dell!=0){
+            $u = User::find($this->id_dell);
+                    if ($u) {
+                        $name = $u->name;
+                        $u->delete();
+                        $this->dispatch('swal', [
+                            'title' => trans('user.eliminado'),
+                            'icon' => 'success',
+                            'timer' => 3000,
+                        ]);
+                        $this->resetPage();
+                    } else {
+                        $this->dispatch('swal', [
+                            'title' => trans('user.noencontrado'),
+                            'icon' => 'warning',
+                            'timer' => 3000,
+                        ]);
+                    }
+        }else{
             $this->dispatch('swal', [
-                'title' => trans('users.eliminado'),
-                'icon' => 'success',
-                'timer' => 3000,
+                            'title' => trans('user.noencontrado'),
+                            'icon' => 'warning',
+                            'timer' => 3000,
+                        ]);
+        }
+
+    }
+
+
+    #[\Livewire\Attributes\On('verif_dell')]
+    public function verif_dell($rowId): void
+    {
+        $this->id_dell=$rowId;
+        $u = User::find($rowId);
+        if ($u) {
+
+
+            $this->dispatch('verif_swal', [
+
+                'id_dell' => $rowId,
             ]);
-            $this->resetPage();
+
         } else {
             $this->dispatch('swal', [
-                'title' => trans('users.noencontrado'),
+                'title' => trans('user.noencontrado'),
                 'icon' => 'warning',
                 'timer' => 3000,
             ]);
@@ -201,7 +234,7 @@ final class UserTable extends PowerGridComponent
                     ->slot('<i class="fas fa-trash"></i>')
                     ->id()
                     ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                    ->dispatch('dell', ['rowId' => $row->id])
+                    ->dispatch('verif_dell', ['rowId' => $row->id]),
         ];
     }
 

@@ -42,7 +42,7 @@ use App\Models\Warehouse;
             $product = Product::find($data['id']);
 
             $this->name = $product->name;
-            $this->image_url = $product->image_url;
+            /* $this->image_url = $product->image_url; */
             $this->sku = $product->sku;
             $this->barcode = $product->barcode;
             $this->stock = $product->stock;

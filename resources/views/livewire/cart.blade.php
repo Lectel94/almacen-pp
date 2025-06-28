@@ -128,10 +128,10 @@
                         <span>Total:</span>
                         <span>${{ number_format($total, 2) }}</span>
                     </div>
-                    <button @click="message='Esta función está en construcción'; showMessage=true"
-                        class="w-full px-4 py-2 font-semibold text-white bg-green-600 rounded hover:bg-green-700">
+                    <a href="{{ route('step-cart') }}"
+                        class="block w-full px-4 py-2 font-semibold text-center text-white bg-green-600 rounded hover:bg-green-700">
                         Finalizar compra
-                    </button>
+                    </a>
                 </div>
 
                 <!-- Mensaje en pantalla -->
