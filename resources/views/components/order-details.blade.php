@@ -33,7 +33,7 @@
                     <p><strong>Teléfono:</strong> {{ $order->mobile }}</p>
                     <p><strong>Email:</strong> {{ $order->email }}</p>
                     <p><strong>Total:</strong> ${{ number_format($order->total, 2) }}</p>
-                    <p><strong>Estado:</strong> {{ $order->status }}</p>
+                    <p><strong>Estado:</strong> {{ $order->status->description }}</p>
                 </div>
 
                 {{-- Detalles productos --}}
@@ -82,7 +82,7 @@
                                 </tr>
                                 @endforeach
                                 <tr>
-                                    <td class="px-2 py-1 border border-gray-300" colspan="3"
+                                    <td class="px-2 py-1 border border-gray-300" colspan="4"
                                         class="text-lg font-semibold">Total General:</td>
                                     <td class="px-2 py-1 font-semibold text-right border border-gray-300">${{
                                         number_format($order->total, 2) }}</td>

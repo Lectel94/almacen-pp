@@ -10,6 +10,27 @@
             <div class="overflow-hidden bg-white shadow-xl sm:rounded-lg" style="padding: 3%;">
                 <h1>Invoices</h1>
                 <livewire:invoice-table />
+
+                @push('js-livewire')
+                <script>
+                    Livewire.on('swal', function(data) {
+
+                        Swal.fire({
+                        text: data[0].title,
+                        icon: data[0].icon,
+                        confirmButtonText: 'Aceptar',
+                        timer:data[0].timer, // en milisegundos // Tiempo en milisegundos (5 segundos)
+                        timerProgressBar: true, // Muestra la barra de progreso del tiempo
+                        });
+
+
+                    });
+
+
+
+
+                </script>
+                @endpush
             </div>
         </div>
     </div>
