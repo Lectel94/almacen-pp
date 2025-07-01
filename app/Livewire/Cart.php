@@ -67,7 +67,7 @@ class Cart extends Component
         $total = 0;
         foreach ($cartItems as $item) {
 
-            $total += $item['product']->list_price * $item['quantity'];
+            $total += $item['product']->precio_por_rol * $item['quantity'];
         }
 
         return view('livewire.cart', [

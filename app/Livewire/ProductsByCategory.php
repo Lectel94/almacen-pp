@@ -36,7 +36,10 @@ class ProductsByCategory extends Component
 
     public function mount()
     {
-        $this->categories = Category::all();
+        /* $this->categories = Category::all(); */
+        $this->categories = Category::whereHas('products', function($q) {
+            $q->where('stock', '>', 0);
+        })->get();
         $this->loadCart();
         /* // Inicializa las cantidades en 1 por cada producto
         foreach ($this->products as $product) {
@@ -49,20 +52,31 @@ class ProductsByCategory extends Component
         $productId = $data['id'];
         $quantity = $data['quantity'] ?? 1;
         $product  =Product::find($productId);
-        if($product){
-            if (isset($this->cartItems[$productId])) {
-                        $this->cartItems[$productId]['quantity'] += $quantity;
-                    } else {
-                        $this->cartItems[$productId] = [
-                            'product' => $product,
-                            'quantity' => $quantity,
-                        ];
-                    }
 
-                    $this->saveCart();
+        if ($product->stock >= $quantity) {
+            if($product){
+                if (isset($this->cartItems[$productId])) {
+                            $this->cartItems[$productId]['quantity'] += $quantity;
+                        } else {
+                            $this->cartItems[$productId] = [
+                                'product' => $product,
+                                'quantity' => $quantity,
+                            ];
+                        }
 
-                    $this->dispatch('updateCart', count($this->cartItems));
+                        $this->saveCart();
+
+                        $this->dispatch('updateCart', count($this->cartItems));
+            }
+        }else{
+            $this->dispatch('swal', [
+                'title' => trans('Cantidad no disponible en Stock'),
+                'icon' => 'warning',
+                'timer' => 4000,
+            ]);
+
         }
+
 
     }
     public function openModal($id){
@@ -143,21 +157,31 @@ class ProductsByCategory extends Component
     {
 
 
-        $productId = $product->id;
-        $quantity = $this->quantities[$productId] ?? 1;
+            $productId = $product->id;
+            $quantity = $this->quantities[$productId] ?? 1;
 
-        if (isset($this->cartItems[$productId])) {
-            $this->cartItems[$productId]['quantity'] += $quantity;
-        } else {
-            $this->cartItems[$productId] = [
-                'product' => $product,
-                'quantity' => $quantity,
-            ];
+        if ($product->stock >= $quantity) {
+
+            if (isset($this->cartItems[$productId])) {
+                $this->cartItems[$productId]['quantity'] += $quantity;
+            } else {
+                $this->cartItems[$productId] = [
+                    'product' => $product,
+                    'quantity' => $quantity,
+                ];
+            }
+
+            $this->saveCart();
+
+            $this->dispatch('updateCart', count($this->cartItems));
+        }else{
+            $this->dispatch('swal', [
+                'title' => trans('Cantidad no disponible en Stock'),
+                'icon' => 'warning',
+                'timer' => 4000,
+            ]);
         }
 
-        $this->saveCart();
-
-        $this->dispatch('updateCart', count($this->cartItems));
     }
 
 
@@ -174,7 +198,7 @@ class ProductsByCategory extends Component
     {
         $total = 0;
         foreach ($this->cartItems as $item) {
-            $total += $item['product']->list_price * $item['quantity'];
+            $total += $item['product']->precio_por_rol * $item['quantity'];
         }
         return $total;
     }
@@ -205,6 +229,9 @@ class ProductsByCategory extends Component
         if ($this->search) {
             $productsQuery->where('name', 'like', '%' . $this->search . '%');
         }
+
+        // Filtrar solo productos con stock > 0
+        $productsQuery->where('stock', '>', 0);
 
         if ($this->sortOption) {
             $productsQuery = $this->getSortedQuery($productsQuery);

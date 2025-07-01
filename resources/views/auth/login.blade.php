@@ -12,6 +12,18 @@
         </div>
         @endsession
 
+        @if(session('message'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                icon: 'info',
+                title: 'Información',
+                text: '{{ session('message') }}',
+            });
+        });
+        </script>
+        @endif
+
         <form method="POST" action="{{ route('login') }}">
             @csrf
 

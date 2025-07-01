@@ -41,7 +41,7 @@
                                     class="block w-full transition rounded hover:bg-blue-100">
                                     <i class="fas fa-apple-alt me-2"></i>{{ $category->name }}
                                 </a>
-                                <span>({{ count($category->products) }})</span>
+                                <span>({{ $category->product_stock_count }})</span>
                             </div>
                         </li>
                         @endforeach
@@ -94,7 +94,8 @@
                                 </a>
                                 <p class="mb-3 text-sm text-gray-600">{{ $product->description }}</p>
                                 <div class="d-flex justify-content-between flex-lg-wrap align-items-center">
-                                    <p class="mb-0 text-dark fs-5 fw-bold">${{ $product->list_price }}</p>
+                                    <p class="mb-0 text-dark fs-5 fw-bold">${{ number_format($product->precio_por_rol,
+                                        2) }}</p>
 
                                 </div>
                                 <!-- Selector cantidad -->
@@ -149,4 +150,6 @@
             </div>
         </div>
     </div>
+
+
 </div>

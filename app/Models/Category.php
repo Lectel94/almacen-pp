@@ -11,9 +11,15 @@ class Category extends Model
 
     ];
 
+    public function getProductStockCountAttribute()
+    {
+        return $this->products()->where('stock', '>', 0)->count();
+    }
+
 
     public function products()
     {
         return $this->hasMany(Product::class);
     }
+
 }

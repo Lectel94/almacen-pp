@@ -71,11 +71,12 @@
 
                         <div class="flex-1">
                             <h4 class="font-semibold text-gray-700">{{ $item['product']->name }}</h4>
-                            <p class="text-sm text-gray-500">Precio: ${{ number_format($item['product']->list_price, 2)
+                            <p class="text-sm text-gray-500">Precio: ${{ number_format($item['product']->precio_por_rol,
+                                2)
                                 }}</p>
                             <p class="text-sm text-gray-500">Cantidad: {{ $item['quantity'] }}</p>
                             <p class="text-sm font-semibold text-green-600">
-                                Subtotal: ${{ number_format($item['product']->list_price * $item['quantity'], 2) }}
+                                Subtotal: ${{ number_format($item['product']->precio_por_rol * $item['quantity'], 2) }}
                             </p>
                         </div>
                     </div>

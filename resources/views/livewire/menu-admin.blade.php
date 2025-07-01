@@ -37,7 +37,7 @@
                         </x-nav-link>
 
                         <x-nav-link href="{{ route('admin-category') }}" :active="request()->routeIs('admin-category')">
-                            {{ __('Categorias') }}
+                            {{ __('Categories') }}
                         </x-nav-link>
 
                         <x-nav-link href="{{ route('admin-variant') }}" :active="request()->routeIs('admin-variant')">
@@ -45,15 +45,19 @@
                         </x-nav-link>
 
                         <x-nav-link href="{{ route('admin-product') }}" :active="request()->routeIs('admin-product')">
-                            {{ __('Productos') }}
+                            {{ __('Products') }}
+                        </x-nav-link>
+
+                        <x-nav-link href="{{ route('admin-coupon') }}" :active="request()->routeIs('admin-coupon')">
+                            {{ __('Coupons') }}
                         </x-nav-link>
 
                         <x-nav-link href="{{ route('admin-order') }}" :active="request()->routeIs('admin-order')">
-                            {{ __('Pedidos') }}
+                            {{ __('Orders') }}
                         </x-nav-link>
 
                         <x-nav-link href="{{ route('admin-invoice') }}" :active="request()->routeIs('admin-invoice')">
-                            {{ __('Facturas') }}
+                            {{ __('Invoices') }}
                         </x-nav-link>
 
 
@@ -246,6 +250,10 @@
                 <x-responsive-nav-link href="{{ route('admin-product') }}"
                     :active="request()->routeIs('admin-product')">
                     {{ __('Productos') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link href="{{ route('admin-coupon') }}" :active="request()->routeIs('admin-coupon')">
+                    {{ __('Coupons') }}
                 </x-responsive-nav-link>
 
                 <x-responsive-nav-link href="{{ route('admin-order') }}" :active="request()->routeIs('admin-order')">

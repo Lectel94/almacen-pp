@@ -26,7 +26,31 @@ class Product extends Model
 
     ];
 
+    public function getPrecioPorRolAttribute()
+    {
+        $user = auth()->user();
 
+        if (!$user) {
+            return $this->list_price;
+        }
+
+        if ($user->hasRole('Category1')) {
+            return $this->list_price;
+        }
+
+        if ($user->hasRole('Category2')) {
+            return $this->list_price / 0.9;
+        }
+
+        if ($user->hasRole('Category3')) {
+            return $this->list_price / 0.85;
+        }
+        if ($user->hasRole('Category4')) {
+            return $this->list_price / 0.8;
+        }
+
+        return $this->list_price ;
+    }
 
     public function warehouse()
     {
@@ -48,4 +72,6 @@ class Product extends Model
     {
         return $this->belongsTo(Variant::class);
     }
+
+
 }

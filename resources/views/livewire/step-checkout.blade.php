@@ -3,7 +3,7 @@
     <div class="py-5 container-fluid">
         <div class="container py-5">
             <h1 class="mb-4">Billing details</h1>
-            <form wire:submit.prevent="submitOrder">
+            <form wire:submit.prevent="proceedToCheckout">
                 <div class="row g-5">
                     <!-- Datos de facturación -->
                     <div class="col-md-12 col-lg-6 col-xl-7">
@@ -70,7 +70,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($cartItems as $item)
+                                    @foreach($cartItems as $index => $item)
                                     <tr>
                                         <th scope="row">
                                             <div class="mt-2 d-flex align-items-center">
@@ -80,16 +80,24 @@
                                             </div>
                                         </th>
                                         <td class="py-5">{{ $item['product']->name }}</td>
-                                        <td class="py-5">${{ number_format($item['product']->list_price, 2) }}</td>
-                                        <td class="py-5">{{ $item['quantity'] }}</td>
+                                        <td class="py-5">${{ number_format($item['product']->precio_por_rol, 2) }}</td>
                                         <td class="py-5">
-                                            ${{ number_format($item['product']->list_price * $item['quantity'], 2) }}
+                                            <input type="number" wire:model.number="cartItems.{{ $index }}.quantity"
+                                                value="{{ $item['quantity'] }}"
+                                                data-product-id="{{ $item['product']->id }}"
+                                                data-original-quantity="{{ $item['quantity'] }}"
+                                                wire:change="updateQuantity({{ $item['product']->id }}, $event.target.value)"
+                                                min="1" class="form-control form-control-sm" style="width:80px;">
+                                        </td>
+                                        <td class="py-5">
+                                            ${{ number_format($item['product']->precio_por_rol * $item['quantity'], 2)
+                                            }}
                                         </td>
                                     </tr>
                                     @endforeach
                                     <!-- Subtotal -->
                                     <tr>
-                                        <th scope="row"></th>
+
                                         <td class="py-5"></td>
                                         <td class="py-5"></td>
                                         <td class="py-5">
@@ -103,7 +111,7 @@
                                     </tr>
                                     <!-- Shipping -->
                                     <tr>
-                                        <th scope="row"></th>
+
                                         <td class="py-5">
                                             <p class="py-4 mb-0 text-dark">Shipping</p>
                                         </td>
@@ -133,9 +141,50 @@
                                             </div> --}}
                                         </td>
                                     </tr>
+                                    <!-- Sección del cupón -->
+
+                                    <tr>
+
+                                        <td class="py-5">
+                                            <p class="py-4 mb-0 text-dark">Apply Coupon</p>
+                                        </td>
+                                        <td colspan="3" class="py-5">
+                                            <div class="form-check text-start">
+                                                <div class="mb-3 d-flex align-items-center">
+                                                    @if(!$appliedCoupon)
+                                                    <input type="text" class="form-control"
+                                                        placeholder="Enter Coupon Code" wire:model.lazy="couponCode" />
+                                                    <i class="cursor-pointer fas fa-paper-plane ms-2 text-success"
+                                                        wire:click="applyCoupon"></i>
+                                                    @endif
+
+                                                </div>
+                                                @if(session()->has('error'))
+                                                <div class="alert alert-danger">
+                                                    {{ session('error') }}
+                                                </div>
+                                                @endif
+                                                <div class="mb-4 d-flex justify-content-between">
+                                                    @if($discountAmount > 0)
+                                                    <p class="text-success"> -${{
+                                                        number_format($discountAmount, 2) }}</p>
+                                                    @endif
+                                                    @if($appliedCoupon)
+                                                    <i wire:click="removeCoupon()"
+                                                        class="cursor-pointer text-danger fas fa-trash"></i>
+                                                    @endif
+                                                </div>
+
+
+                                            </div>
+
+                                        </td>
+                                    </tr>
+
+
                                     <!-- Total -->
                                     <tr>
-                                        <th scope="row"></th>
+
                                         <td class="py-5">
                                             <p class="py-3 mb-0 text-dark text-uppercase">TOTAL</p>
                                         </td>

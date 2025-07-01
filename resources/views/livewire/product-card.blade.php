@@ -40,7 +40,7 @@
                     <p class="mb-4 text-sm text-gray-600">{{ $product->description }}Descripción larga del producto...
                     </p>
                     <div class="flex items-center justify-between">
-                        <div class="text-xl font-bold text-green-600">${{ number_format($product->list_price, 2) }}
+                        <div class="text-xl font-bold text-green-600">${{ number_format($product->precio_por_rol, 2) }}
                         </div>
                     </div>
 

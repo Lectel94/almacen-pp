@@ -27,7 +27,7 @@
                                 <p class="mt-4 mb-0">{{ $item['product']->name }}</p>
                             </td>
                             <td>
-                                <p class="mt-4 mb-0">{{ number_format($item['product']->list_price, 2) }} $</p>
+                                <p class="mt-4 mb-0">{{ number_format($item['product']->precio_por_rol, 2) }} $</p>
                             </td>
                             <td>
                                 <div class="mt-4 input-group quantity" style="width: 100px;">
@@ -39,7 +39,8 @@
                                         </button>
                                     </div>
                                     <input type="text" class="text-center border-0 form-control form-control-sm"
-                                        value="{{ $item['quantity'] }}" readonly>
+                                        value="{{ $item['quantity'] }}" readonly data-product-id="{{ $productId }}"
+                                        data-original-quantity="{{ $item['quantity'] }}">
                                     <div class="input-group-btn">
                                         <button
                                             wire:click="updateQuantity({{ $productId }}, {{ $item['quantity'] + 1 }})"
@@ -50,7 +51,8 @@
                                 </div>
                             </td>
                             <td>
-                                <p class="mt-4 mb-0">{{ number_format($item['product']->list_price * $item['quantity'],
+                                <p class="mt-4 mb-0">{{ number_format($item['product']->precio_por_rol *
+                                    $item['quantity'],
                                     2) }} $</p>
                             </td>
                             <td>
@@ -65,9 +67,31 @@
                 </table>
             </div>
             <div class="mt-5">
-                <input type="text" class="py-3 mb-4 border-0 rounded border-bottom me-5" placeholder="Coupon Code">
-                <button class="px-4 py-3 btn border-secondary rounded-pill text-primary" type="button">Apply
-                    Coupon</button>
+                <div class="mb-3 d-flex align-items-center">
+                    <input type="text" wire:model.defer="couponCode" placeholder="Código de cupón"
+                        class="py-3 mb-4 border-0 rounded border-bottom me-3" style="width: auto;">
+                    <button class="px-4 py-3 btn border-secondary rounded-pill text-primary" type="button"
+                        wire:click="applyCoupon">
+                        Aplicar Cupón
+                    </button>
+                </div>
+
+                @if(session()->has('error'))
+                <div style="color:red;">{{ session('error') }}</div>
+                @endif
+
+                @if($discountAmount > 0)
+                <div class="alert alert-success">
+                    <p>Descuento aplicado: {{ number_format($discountAmount, 2) }} $</p>
+                </div>
+                @endif
+
+
+                @if($appliedCoupon)
+                <div class="mt-2">
+                    <button class="btn btn-danger btn-sm" wire:click="removeCoupon">Quitar Cupón</button>
+                </div>
+                @endif
             </div>
             <div class="row g-4 justify-content-end">
                 <div class="col-8"></div>
@@ -80,6 +104,16 @@
                                 <h5 class="mb-0 me-4">Subtotal:</h5>
                                 <p class="mb-0">{{ number_format($subtotal, 2) }}</p>
                             </div>
+                            <!-- Descuento del cupón -->
+                            @if($appliedCoupon && $discountAmount > 0)
+                            <div class="mb-4 d-flex justify-content-between">
+                                <h5 class="mb-0 me-4">Coupon Discount:</h5>
+                                <i wire:click="removeCoupon()" class="cursor-pointer text-danger fas fa-trash"></i>
+                                <p class="mb-0">{{ number_format($discountAmount, 2) }}</p>
+                            </div>
+                            @endif
+
+
                             <!-- Shipping -->
                             <div class="d-flex justify-content-between">
                                 <h5 class="mb-0 me-4">Shipping</h5>
@@ -96,8 +130,14 @@
                             <p class="mb-0 pe-4">{{ number_format($total, 2) }}</p>
                         </div>
                         <!-- Botón -->
-                        <a class="px-4 py-3 mb-4 btn border-secondary rounded-pill text-primary text-uppercase ms-4"
+                        {{-- <a
+                            class="px-4 py-3 mb-4 btn border-secondary rounded-pill text-primary text-uppercase ms-4"
                             href="{{ route('step-checkout') }}">
+                            Proceed Checkout
+                        </a> --}}
+                        <a wire:click="proceedToCheckout"
+                            class="px-4 py-3 mb-4 btn border-secondary rounded-pill text-primary text-uppercase ms-4"
+                            style="cursor:pointer;">
                             Proceed Checkout
                         </a>
                     </div>

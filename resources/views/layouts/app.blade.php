@@ -32,6 +32,8 @@
 </head>
 
 <body class="font-sans antialiased">
+
+
     <x-banner />
 
     <div class="min-h-screen bg-gray-100">
@@ -55,6 +57,8 @@
     @stack('modals')
 
     @livewireScripts
+
+    @stack('js-livewire')
 
     <!-- JavaScript Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>

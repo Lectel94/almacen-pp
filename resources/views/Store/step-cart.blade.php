@@ -28,6 +28,57 @@
 
                 @push('js-livewire')
                 <script>
+                    Livewire.on('swal', function(data) {
+
+                        if(data[0].quantity){
+
+                            let productId = data[0].productId;
+                            let maxAllowed = data[0].quantity;
+                            console.log(maxAllowed)
+
+                            // Buscar el input correspondiente y actualizarlo
+
+                            // Buscar el input correspondiente y actualizarlo
+                            let input = document.querySelector(`input[data-product-id='${productId}']`);
+                            if (input) {
+                                input.value = parseInt(maxAllowed);
+                            }
+                        }
+
+
+                        Swal.fire({
+                        text: data[0].title,
+                        icon: data[0].icon,
+                        confirmButtonText: 'Aceptar',
+                        timer:data[0].timer, // en milisegundos // Tiempo en milisegundos (5 segundos)
+                        timerProgressBar: true, // Muestra la barra de progreso del tiempo
+                        });
+
+
+                    });
+
+                    Livewire.on('stock-problem', data => {
+
+                        if (data[0].messages && Array.isArray(data[0].messages)) {
+
+                            let messages = data[0].messages.join('<br>');
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Problemas en el stock',
+                                html: messages,
+                            });
+                        } else {
+                            // Otra opción si messages no existe
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Problemas en el stock',
+                                text: 'Hay productos sin stock.',
+                            });
+                        }
+                    });
+
+
+
 
                 </script>
                 @endpush
