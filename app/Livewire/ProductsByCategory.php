@@ -53,7 +53,11 @@ class ProductsByCategory extends Component
         $quantity = $data['quantity'] ?? 1;
         $product  =Product::find($productId);
 
-        if ($product->stock >= $quantity) {
+        $cant_aux=$this->cartItems[$productId]['quantity'] ?? 1;
+
+
+
+        if ($product->stock >= ($cant_aux + $quantity)) {
             if($product){
                 if (isset($this->cartItems[$productId])) {
                             $this->cartItems[$productId]['quantity'] += $quantity;
@@ -160,7 +164,11 @@ class ProductsByCategory extends Component
             $productId = $product->id;
             $quantity = $this->quantities[$productId] ?? 1;
 
-        if ($product->stock >= $quantity) {
+        $cant_aux=$this->cartItems[$productId]['quantity'] ?? 1;
+
+
+
+        if ($product->stock >= ($cant_aux + $quantity)) {
 
             if (isset($this->cartItems[$productId])) {
                 $this->cartItems[$productId]['quantity'] += $quantity;

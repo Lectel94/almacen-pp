@@ -152,6 +152,11 @@ protected $listeners = [
             ->add('barcode')
             ->add('stock')
             ->add('list_price')
+            ->add('list_price_cat2', fn ($p) => number_format($p->list_price/0.9,2))
+            ->add('list_price_cat3', fn ($p) => number_format($p->list_price/0.85,2))
+            ->add('list_price_cat4', fn ($p) => number_format($p->list_price/0.8,2))
+
+
             ->add('cost_unit')
             ->add('total_value')
             ->add('potencial_revenue')
@@ -186,6 +191,11 @@ protected $listeners = [
             Column::make('SKU', 'sku')->sortable()->searchable()->visibleInExport(true),
             Column::make('Barcode', 'barcode')->sortable()->searchable()->visibleInExport(true),
             Column::make('List Price', 'list_price')->sortable()->searchable()->editOnClick(hasPermission:true)->visibleInExport(true),
+
+            Column::make('Price Cat 2', 'list_price_cat2'),
+            Column::make('Price Cat 3', 'list_price_cat3'),
+            Column::make('Price Cat 4', 'list_price_cat4'),
+
             Column::make('Cost Unit', 'cost_unit')->sortable()->searchable()->editOnClick(hasPermission:true)->visibleInExport(true),
             Column::make('Total Value', 'total_value')->sortable()->searchable()->visibleInExport(true),
             Column::make('Potencial Revenue', 'potencial_revenue')->sortable()->searchable()->visibleInExport(true),
