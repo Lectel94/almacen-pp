@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DAPP=/home/prodat33333/repositories/warehouse-pp
+    - export DAPP=/home/yinb1ow33r0q/public_html
     - /bin/rsync -a public/ $DAPP
