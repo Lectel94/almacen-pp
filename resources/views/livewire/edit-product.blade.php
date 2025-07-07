@@ -79,30 +79,35 @@
             <div class="col-span-1">
                 <label class="block mb-1 font-semibold">Barcode</label>
                 <input wire:model="barcode" type="text" class="w-full p-2 border rounded" />
+                @error('barcode') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
             </div>
 
             <!-- Stock -->
             <div class="col-span-1">
                 <label class="block mb-1 font-semibold">Stock</label>
                 <input wire:model="stock" type="number" class="w-full p-2 border rounded" />
+                @error('stock') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
             </div>
 
             <!-- Lista de precio -->
             <div class="col-span-1">
                 <label class="block mb-1 font-semibold">List Price</label>
                 <input wire:model="list_price" type="number" step="0.01" class="w-full p-2 border rounded" />
+                @error('list_price') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
             </div>
 
             <!-- Costo por unidad -->
             <div class="col-span-1">
                 <label class="block mb-1 font-semibold">Cost Unit</label>
                 <input wire:model="cost_unit" type="number" step="0.01" class="w-full p-2 border rounded" />
+                @error('cost_unit') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
             </div>
 
             <!-- Valor total -->
             <div class="col-span-1">
                 <label class="block mb-1 font-semibold">Total Value</label>
                 <input wire:model="total_value" type="number" step="0.01" class="w-full p-2 border rounded" />
+                @error('total_value') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
             </div>
 
             <!-- Potencial Revenue -->
